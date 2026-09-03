@@ -1,0 +1,312 @@
+@import "tailwindcss";
+
+:root {
+  --background: #050508;
+  --foreground: #e6f1ff;
+  --os-blue: #1a8cff;
+  --os-blue-dim: #0f4c8c;
+  --os-red: #ff2d55;
+  --os-cyan: #2de2ff;
+  --os-dark: #050508;
+  --os-panel: rgba(13, 13, 20, 0.92);
+  --os-titlebar: #0a0a14;
+  --os-border: rgba(26, 140, 255, 0.35);
+  --os-overlay-1: rgba(0, 0, 0, 0.6);
+  --os-overlay-2: rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="light"] {
+  --background: #e4e9f2;
+  --foreground: #14192a;
+  --os-blue-dim: #7fb4f0;
+  --os-dark: #d7deea;
+  --os-panel: rgba(228, 233, 242, 0.94);
+  --os-titlebar: #c6d0e3;
+  --os-border: rgba(26, 140, 255, 0.45);
+  --os-overlay-1: rgba(255, 255, 255, 0.75);
+  --os-overlay-2: rgba(255, 255, 255, 0.55);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-os-blue: var(--os-blue);
+  --color-os-blue-dim: var(--os-blue-dim);
+  --color-os-red: var(--os-red);
+  --color-os-cyan: var(--os-cyan);
+  --color-os-dark: var(--os-dark);
+  --color-os-panel: var(--os-panel);
+  --color-os-titlebar: var(--os-titlebar);
+  --color-os-border: var(--os-border);
+  --color-os-overlay-1: var(--os-overlay-1);
+  --color-os-overlay-2: var(--os-overlay-2);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+  --font-pixel: var(--font-pixel);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  font-family: var(--font-mono), monospace;
+}
+
+/* ---------- Grid background ---------- */
+.os-grid-bg {
+  background-image: linear-gradient(
+      to right,
+      rgba(26, 140, 255, 0.07) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(26, 140, 255, 0.07) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+/* ---------- Scanline overlay ---------- */
+.os-scanlines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0px,
+    rgba(255, 255, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  animation: scanlines-scroll 8s linear infinite;
+}
+
+@keyframes scanlines-scroll {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 100px;
+  }
+}
+
+/* ---------- Diagonal accent slashes ---------- */
+.os-slash-tl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 22vw;
+  height: 100vh;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 140, 255, 0.16) 0%,
+    rgba(26, 140, 255, 0.05) 45%,
+    transparent 60%
+  );
+  clip-path: polygon(0 0, 60% 0, 0 75%);
+  pointer-events: none;
+}
+
+.os-slash-br {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 22vw;
+  height: 100vh;
+  background: linear-gradient(
+    -45deg,
+    rgba(255, 45, 85, 0.14) 0%,
+    rgba(255, 45, 85, 0.04) 45%,
+    transparent 60%
+  );
+  clip-path: polygon(100% 100%, 40% 100%, 100% 25%);
+  pointer-events: none;
+}
+
+/* ---------- Text glitch ---------- */
+@keyframes glitch {
+  0%,
+  100% {
+    text-shadow: 2px 0 var(--os-blue), -2px 0 var(--os-red);
+    transform: translate(0, 0);
+  }
+  20% {
+    text-shadow: -2px 0 var(--os-blue), 2px 0 var(--os-red);
+    transform: translate(-1px, 1px);
+  }
+  40% {
+    text-shadow: 2px 0 var(--os-blue), -2px 0 var(--os-red);
+    transform: translate(1px, -1px);
+  }
+  60% {
+    text-shadow: -1px 0 var(--os-blue), 1px 0 var(--os-red);
+    transform: translate(0, 0);
+  }
+}
+
+.os-glitch {
+  animation: glitch 3.5s infinite;
+}
+
+/* ---------- Flicker ---------- */
+@keyframes flicker {
+  0%,
+  92%,
+  100% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.55;
+  }
+  95% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 0.7;
+  }
+}
+
+.os-flicker {
+  animation: flicker 4s infinite;
+}
+
+/* ---------- Boot progress bar ---------- */
+@keyframes boot-stripes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 32px 0;
+  }
+}
+
+.os-progress-fill {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.25) 0,
+    rgba(255, 255, 255, 0.25) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  background-color: var(--os-blue);
+  animation: boot-stripes 1s linear infinite;
+}
+
+/* ---------- Fade transitions ---------- */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.os-fade-in {
+  animation: fade-in 0.4s ease forwards;
+}
+
+.os-fade-out {
+  animation: fade-out 0.5s ease forwards;
+}
+
+/* ---------- Scrollbar ---------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--os-blue-dim) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--os-blue-dim);
+}
+
+
+/* ---------- Animation for project window  ---------- */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.35s ease-out;
+}
+
+/* ---------- Pixel-art visual treatments ---------- */
+.pixel-corners {
+  clip-path: polygon(
+    0 8px, 8px 8px, 8px 0,
+    calc(100% - 8px) 0, calc(100% - 8px) 8px, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) 100%,
+    8px 100%, 8px calc(100% - 8px), 0 calc(100% - 8px)
+  );
+}
+
+.pixel-btn {
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.55);
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+.pixel-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- Desktop icon idle float + hover wiggle ---------- */
+@keyframes icon-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-icon-float {
+  animation: icon-float 3.2s ease-in-out infinite;
+}
+
+@keyframes icon-wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  40% {
+    transform: rotate(7deg);
+  }
+  60% {
+    transform: rotate(-5deg);
+  }
+  80% {
+    transform: rotate(3deg);
+  }
+}
