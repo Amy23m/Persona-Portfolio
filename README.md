@@ -1,10 +1,8 @@
-# AyomideOS — Interactive Portfolio
+# Ayomide's Portfolio V1
 
-A Persona 5 RPG + Cyberpunk Brutalism styled portfolio, built as a fully functional desktop OS in the browser instead of a normal scrolling page. Boot into a retro desktop, then drag, resize, and open windows for **About**, **Experience**, **Builds** (projects, laid out as a 3D perspective card grid with per-project detail pages), **Connect**, and a built-in **Music** player.
+A personal portfolio site built as a retro desktop OS. Instead of scrolling a single page, visitors open draggable windows: About, Experience, and Projects, each with animated image galleries and a terminal-inspired look.
 
-Built with Next.js, TypeScript, and Tailwind CSS — no animation library, just CSS transforms and a lot of pixel-art detail.
-
----
+**Stack:** Next.js (App Router), TypeScript, Tailwind CSS
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
