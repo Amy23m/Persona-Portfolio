@@ -61,7 +61,7 @@ export default function BootScreen({ onBoot }: BootScreenProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col bg-os-dark os-grid-bg os-scanlines overflow-hidden ${
+      className={`fixed inset-0 z-50 flex flex-col overflow-hidden bg-os-dark os-grid-bg os-scanlines pt-safe pb-safe pl-safe pr-safe ${
         leaving ? "os-fade-out" : ""
       }`}
     >
@@ -74,7 +74,7 @@ export default function BootScreen({ onBoot }: BootScreenProps) {
         </p>
 
         <h1
-          className="os-glitch font-display text-7xl sm:text-8xl md:text-9xl leading-none text-foreground"
+          className="os-glitch font-display text-4xl leading-none text-foreground sm:text-6xl md:text-8xl lg:text-9xl"
           style={{
             WebkitTextStroke: "2px var(--os-blue)",
             textShadow: "0 0 24px rgba(26,140,255,0.55)",
@@ -82,11 +82,11 @@ export default function BootScreen({ onBoot }: BootScreenProps) {
         >
           AYOMIDE OSHILAJA
         </h1>
-        <h2 className="font-display text-5xl sm:text-6xl md:text-7xl leading-none text-os-blue mt-2 os-flicker">
+        <h2 className="font-display text-2xl leading-none text-os-blue mt-2 os-flicker sm:text-4xl md:text-6xl lg:text-7xl">
           OS
         </h2>
 
-        <p className="mt-8 text-sm tracking-[0.3em] text-foreground/50">
+        <p className="mt-8 text-[11px] tracking-[0.15em] text-foreground/50 sm:text-sm sm:tracking-[0.3em]">
           INTERACTIVE PORTFOLIO SYSTEM
         </p>
 
@@ -136,7 +136,7 @@ export default function BootScreen({ onBoot }: BootScreenProps) {
         )}
       </div>
 
-      <div className="relative z-10 flex items-center justify-between px-6 py-3 font-pixel text-[9px] tracking-[0.2em] text-foreground/40">
+      <div className="relative z-10 flex flex-col gap-1 px-6 py-3 font-pixel text-[9px] tracking-[0.15em] text-foreground/40 sm:flex-row sm:items-center sm:justify-between sm:tracking-[0.2em]">
         <span>AYOMIDE OSHILAJA OS </span>
         <span>BUILD 2025 // READY</span>
       </div>

@@ -34,13 +34,12 @@ const EDUCATION = [
   },
 ];
 
+const RESUME_URL =
+  "https://drive.google.com/file/d/1wi2Umw7IgnrZN1covTm9jX_VzC6k2GDo/view?usp=sharing";
+
 export default function ExperienceWindow() {
   const handleDownload = () => {
-    const resumeUrl = "/resume.pdf";
-    const link = document.createElement("a");
-    link.href = resumeUrl;
-    link.download = "resume.pdf";
-    link.click();
+    window.open(RESUME_URL, "_blank", "noopener,noreferrer");
   };
 
   return (

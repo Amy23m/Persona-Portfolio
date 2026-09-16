@@ -32,7 +32,7 @@ export default function MusicWindow() {
   const [nowPlayingOpen, setNowPlayingOpen] = useState(false);
 
   return (
-    <div className="flex h-full flex-col bg-os-overlay-2 text-foreground">
+    <div className="@container flex h-full flex-col bg-os-overlay-2 text-foreground">
       {nowPlayingOpen ? (
         <NowPlayingView
           currentSeed={currentSeed}
@@ -43,9 +43,9 @@ export default function MusicWindow() {
           onBack={() => setNowPlayingOpen(false)}
         />
       ) : (
-        <div className="flex min-h-0 flex-1 flex-col sm:flex-row">
+        <div className="flex min-h-0 flex-1 flex-col @sm:flex-row">
           {/* Sidebar */}
-          <aside className="flex shrink-0 flex-col gap-1 overflow-y-auto border-b border-os-border bg-os-overlay-1 p-3 sm:w-44 sm:border-b-0 sm:border-r">
+          <aside className="flex shrink-0 flex-col gap-1 overflow-y-auto border-b border-os-border bg-os-overlay-1 p-3 @sm:w-44 @sm:border-b-0 @sm:border-r">
             <p className="mb-1 px-2 text-[10px] tracking-[0.2em] text-foreground/40">
               PLAYLISTS
             </p>

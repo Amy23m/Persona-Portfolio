@@ -3,9 +3,10 @@
 import {
   useCallback,
   useRef,
-  type MouseEvent as ReactMouseEvent,
+  type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from "react";
+import { MIN_WINDOW_HEIGHT, MIN_WINDOW_WIDTH } from "@/components/window-constants";
 
 export type WindowBounds = {
   x: number;
@@ -21,6 +22,7 @@ type OsWindowProps = {
   zIndex: number;
   isActive: boolean;
   isMaximized: boolean;
+  isCompact: boolean;
   onFocus: () => void;
   onClose: () => void;
   onMinimize: () => void;
@@ -30,9 +32,6 @@ type OsWindowProps = {
   children: ReactNode;
 };
 
-const MIN_WIDTH = 380;
-const MIN_HEIGHT = 300;
-
 export default function OsWindow({
   title,
   icon,
@@ -40,6 +39,7 @@ export default function OsWindow({
   zIndex,
   isActive,
   isMaximized,
+  isCompact,
   onFocus,
   onClose,
   onMinimize,
@@ -55,8 +55,8 @@ export default function OsWindow({
     null
   );
 
-  const handleTitleMouseDown = useCallback(
-    (e: ReactMouseEvent<HTMLDivElement>) => {
+  const handleTitlePointerDown = useCallback(
+    (e: ReactPointerEvent<HTMLDivElement>) => {
       if (isMaximized) return;
       e.preventDefault();
       onFocus();
@@ -66,28 +66,27 @@ export default function OsWindow({
         origX: bounds.x,
         origY: bounds.y,
       };
-      const handleMove = (ev: MouseEvent) => {
+      const handleMove = (ev: PointerEvent) => {
         if (!dragState.current) return;
         const dx = ev.clientX - dragState.current.startX;
         const dy = ev.clientY - dragState.current.startY;
-        onMove(
-          Math.max(0, dragState.current.origX + dx),
-          Math.max(0, dragState.current.origY + dy)
-        );
+        onMove(dragState.current.origX + dx, dragState.current.origY + dy);
       };
       const handleUp = () => {
         dragState.current = null;
-        window.removeEventListener("mousemove", handleMove);
-        window.removeEventListener("mouseup", handleUp);
+        window.removeEventListener("pointermove", handleMove);
+        window.removeEventListener("pointerup", handleUp);
+        window.removeEventListener("pointercancel", handleUp);
       };
-      window.addEventListener("mousemove", handleMove);
-      window.addEventListener("mouseup", handleUp);
+      window.addEventListener("pointermove", handleMove);
+      window.addEventListener("pointerup", handleUp);
+      window.addEventListener("pointercancel", handleUp);
     },
     [bounds.x, bounds.y, isMaximized, onFocus, onMove]
   );
 
-  const handleResizeMouseDown = useCallback(
-    (e: ReactMouseEvent<HTMLDivElement>) => {
+  const handleResizePointerDown = useCallback(
+    (e: ReactPointerEvent<HTMLDivElement>) => {
       e.stopPropagation();
       e.preventDefault();
       if (isMaximized) return;
@@ -98,28 +97,30 @@ export default function OsWindow({
         origW: bounds.width,
         origH: bounds.height,
       };
-      const handleMove = (ev: MouseEvent) => {
+      const handleMove = (ev: PointerEvent) => {
         if (!resizeState.current) return;
         const dx = ev.clientX - resizeState.current.startX;
         const dy = ev.clientY - resizeState.current.startY;
         onResize(
-          Math.max(MIN_WIDTH, resizeState.current.origW + dx),
-          Math.max(MIN_HEIGHT, resizeState.current.origH + dy)
+          Math.max(MIN_WINDOW_WIDTH, resizeState.current.origW + dx),
+          Math.max(MIN_WINDOW_HEIGHT, resizeState.current.origH + dy)
         );
       };
       const handleUp = () => {
         resizeState.current = null;
-        window.removeEventListener("mousemove", handleMove);
-        window.removeEventListener("mouseup", handleUp);
+        window.removeEventListener("pointermove", handleMove);
+        window.removeEventListener("pointerup", handleUp);
+        window.removeEventListener("pointercancel", handleUp);
       };
-      window.addEventListener("mousemove", handleMove);
-      window.addEventListener("mouseup", handleUp);
+      window.addEventListener("pointermove", handleMove);
+      window.addEventListener("pointerup", handleUp);
+      window.addEventListener("pointercancel", handleUp);
     },
     [bounds.width, bounds.height, isMaximized, onFocus, onResize]
   );
 
   const style = isMaximized
-    ? { top: 44, left: 0, right: 0, bottom: 0, zIndex }
+    ? { top: 0, left: 0, right: 0, bottom: 0, zIndex }
     : {
         top: bounds.y,
         left: bounds.x,
@@ -132,51 +133,54 @@ export default function OsWindow({
     <div
       className={`absolute flex flex-col border bg-os-panel backdrop-blur-sm shadow-2xl transition-opacity ${
         isActive ? "border-os-blue/70 opacity-100" : "border-os-border opacity-80"
-      }`}
+      } ${isMaximized ? "pb-safe pl-safe pr-safe" : ""}`}
       style={style}
-      onMouseDown={onFocus}
+      onPointerDown={onFocus}
     >
       <div
-        onMouseDown={handleTitleMouseDown}
+        onPointerDown={handleTitlePointerDown}
         onDoubleClick={onToggleMaximize}
+        style={{ touchAction: "none" }}
         className={`flex shrink-0 cursor-move items-center justify-between border-b px-3 py-2 select-none ${
           isActive ? "border-os-blue/60 bg-os-titlebar" : "border-os-border bg-os-titlebar/70"
         }`}
       >
-        <div className="flex items-center gap-2 text-os-blue">
-          <span className="h-4 w-4">{icon}</span>
-          <span className="font-pixel text-[11px] tracking-wider text-foreground">
+        <div className="flex min-w-0 items-center gap-2 text-os-blue">
+          <span className="h-4 w-4 shrink-0">{icon}</span>
+          <span className="truncate font-pixel text-[11px] tracking-wider text-foreground">
             {title}
           </span>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex shrink-0 items-center gap-1.5">
           <button
             onClick={(e) => {
               e.stopPropagation();
               onMinimize();
             }}
             aria-label="Minimize"
-            className="flex h-5 w-5 items-center justify-center border border-os-border text-foreground/60 hover:border-os-blue hover:text-os-blue"
+            className="flex h-6 w-6 items-center justify-center border border-os-border text-foreground/60 hover:border-os-blue hover:text-os-blue sm:h-5 sm:w-5"
           >
             <span className="block h-px w-2.5 bg-current" />
           </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleMaximize();
-            }}
-            aria-label="Maximize"
-            className="flex h-5 w-5 items-center justify-center border border-os-border text-foreground/60 hover:border-os-blue hover:text-os-blue"
-          >
-            <span className="block h-2 w-2 border border-current" />
-          </button>
+          {!isCompact && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleMaximize();
+              }}
+              aria-label="Maximize"
+              className="flex h-6 w-6 items-center justify-center border border-os-border text-foreground/60 hover:border-os-blue hover:text-os-blue sm:h-5 sm:w-5"
+            >
+              <span className="block h-2 w-2 border border-current" />
+            </button>
+          )}
           <button
             onClick={(e) => {
               e.stopPropagation();
               onClose();
             }}
             aria-label="Close"
-            className="flex h-5 w-5 items-center justify-center border border-os-border text-foreground/60 hover:border-os-red hover:text-os-red"
+            className="flex h-6 w-6 items-center justify-center border border-os-border text-foreground/60 hover:border-os-red hover:text-os-red sm:h-5 sm:w-5"
           >
             <span className="block text-xs leading-none">×</span>
           </button>
@@ -187,8 +191,9 @@ export default function OsWindow({
 
       {!isMaximized && (
         <div
-          onMouseDown={handleResizeMouseDown}
-          className="absolute bottom-0 right-0 h-4 w-4 cursor-nwse-resize"
+          onPointerDown={handleResizePointerDown}
+          style={{ touchAction: "none" }}
+          className="absolute bottom-0 right-0 h-4 w-4 cursor-nwse-resize touch-none pointer-coarse:h-7 pointer-coarse:w-7"
         >
           <svg viewBox="0 0 16 16" className="h-full w-full text-os-blue/50">
             <path

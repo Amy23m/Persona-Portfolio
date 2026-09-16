@@ -1,19 +1,28 @@
 "use client";
 
-import { useCallback, useRef, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
+import { useCallback, useRef, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 
 type DesktopIconProps = {
   label: string;
   icon: ReactNode;
-  x: number;
-  y: number;
   onOpen: () => void;
-  onMove: (x: number, y: number) => void;
+  draggable?: boolean;
+  x?: number;
+  y?: number;
+  onMove?: (x: number, y: number) => void;
 };
 
 const DRAG_THRESHOLD = 4;
 
-export default function DesktopIcon({ label, icon, x, y, onOpen, onMove }: DesktopIconProps) {
+export default function DesktopIcon({
+  label,
+  icon,
+  x = 0,
+  y = 0,
+  onOpen,
+  onMove,
+  draggable = true,
+}: DesktopIconProps) {
   const dragState = useRef<{
     startX: number;
     startY: number;
@@ -23,12 +32,13 @@ export default function DesktopIcon({ label, icon, x, y, onOpen, onMove }: Deskt
   } | null>(null);
   const suppressClick = useRef(false);
 
-  const handleMouseDown = useCallback(
-    (e: ReactMouseEvent<HTMLButtonElement>) => {
+  const handlePointerDown = useCallback(
+    (e: ReactPointerEvent<HTMLButtonElement>) => {
+      if (!onMove) return;
       e.preventDefault();
       dragState.current = { startX: e.clientX, startY: e.clientY, origX: x, origY: y, moved: false };
 
-      const handleMove = (ev: MouseEvent) => {
+      const handleMove = (ev: PointerEvent) => {
         if (!dragState.current) return;
         const dx = ev.clientX - dragState.current.startX;
         const dy = ev.clientY - dragState.current.startY;
@@ -45,12 +55,14 @@ export default function DesktopIcon({ label, icon, x, y, onOpen, onMove }: Deskt
 
       const handleUp = () => {
         dragState.current = null;
-        window.removeEventListener("mousemove", handleMove);
-        window.removeEventListener("mouseup", handleUp);
+        window.removeEventListener("pointermove", handleMove);
+        window.removeEventListener("pointerup", handleUp);
+        window.removeEventListener("pointercancel", handleUp);
       };
 
-      window.addEventListener("mousemove", handleMove);
-      window.addEventListener("mouseup", handleUp);
+      window.addEventListener("pointermove", handleMove);
+      window.addEventListener("pointerup", handleUp);
+      window.addEventListener("pointercancel", handleUp);
     },
     [x, y, onMove]
   );
@@ -63,11 +75,27 @@ export default function DesktopIcon({ label, icon, x, y, onOpen, onMove }: Deskt
     onOpen();
   }, [onOpen]);
 
+  if (!draggable) {
+    return (
+      <button
+        onClick={handleClick}
+        className="group flex flex-col items-center gap-2 p-2 text-center outline-none"
+      >
+        <span className="flex h-16 w-16 items-center justify-center text-os-cyan transition-all group-hover:drop-shadow-[0_0_10px_rgba(45,226,255,0.55)] sm:h-20 sm:w-20">
+          <span className="h-14 w-14 sm:h-16 sm:w-16">{icon}</span>
+        </span>
+        <span className="font-pixel text-[9px] tracking-wide text-foreground sm:text-[10px]">
+          {label}
+        </span>
+      </button>
+    );
+  }
+
   return (
     <button
-      onMouseDown={handleMouseDown}
+      onPointerDown={handlePointerDown}
       onClick={handleClick}
-      style={{ left: x, top: y }}
+      style={{ left: x, top: y, touchAction: "none" }}
       className="group pointer-events-auto absolute flex w-36 cursor-grab flex-col items-center gap-2 p-2 text-center outline-none active:cursor-grabbing"
     >
       <span className="flex h-24 w-24 items-center justify-center text-os-cyan transition-all group-hover:drop-shadow-[0_0_10px_rgba(45,226,255,0.55)]">

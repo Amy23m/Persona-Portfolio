@@ -7,6 +7,7 @@ import type { WindowState } from "@/components/types";
 type WindowManagerProps = {
   windows: WindowState[];
   activeId: string | null;
+  isCompact: boolean;
   onFocus: (id: WindowState["id"]) => void;
   onClose: (id: WindowState["id"]) => void;
   onMinimize: (id: WindowState["id"]) => void;
@@ -18,6 +19,7 @@ type WindowManagerProps = {
 export default function WindowManager({
   windows,
   activeId,
+  isCompact,
   onFocus,
   onClose,
   onMinimize,
@@ -42,6 +44,7 @@ export default function WindowManager({
               zIndex={w.zIndex}
               isActive={activeId === w.id}
               isMaximized={w.maximized}
+              isCompact={isCompact}
               onFocus={() => onFocus(w.id)}
               onClose={() => onClose(w.id)}
               onMinimize={() => onMinimize(w.id)}

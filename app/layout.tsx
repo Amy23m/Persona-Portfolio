@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Black_Han_Sans, Share_Tech_Mono, Press_Start_2P } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -26,6 +26,12 @@ export const metadata: Metadata = {
   title: "Ayomide Oshilaja — Interactive Portfolio",
   description:
     "A Persona 5 RPG + Cyberpunk Brutalism styled interactive portfolio, built as a fully functional desktop OS in the browser.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 const THEME_INIT_SCRIPT = `try{var t=localStorage.getItem('persona-os-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}`;

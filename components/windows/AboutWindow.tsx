@@ -10,8 +10,8 @@ const SKILLS: Record<string, string[]> = {
 
 export default function AboutWindow() {
   return (
-    <div className="flex min-h-full flex-col gap-8 bg-os-overlay-2 p-6 text-foreground">
-      <div className="flex flex-col gap-4 border border-os-border bg-os-overlay-1 p-5 sm:flex-row">
+    <div className="@container flex min-h-full flex-col gap-8 bg-os-overlay-2 p-6 text-foreground">
+      <div className="flex flex-col gap-4 border border-os-border bg-os-overlay-1 p-5 @sm:flex-row">
         <div className="relative flex h-24 w-24 shrink-0 items-center justify-center border-2 border-os-blue">
           <Image
             src="/profile-pic.jpg"
@@ -41,7 +41,7 @@ export default function AboutWindow() {
           </p>
 
           <a
-           href="/resume.pdf"
+            href="https://drive.google.com/file/d/1wi2Umw7IgnrZN1covTm9jX_VzC6k2GDo/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             className="pixel-btn mt-4 inline-flex items-center gap-2 border border-os-blue bg-os-blue/10 px-4 py-2 font-pixel text-[10px] tracking-[0.2em] text-os-blue transition-colors hover:bg-os-blue hover:text-black"
@@ -56,7 +56,7 @@ export default function AboutWindow() {
         <h2 className="mb-3 flex items-center gap-2 font-pixel text-sm tracking-wide text-os-blue">
           <span className="text-foreground/40">{"//"}</span> SKILLS
         </h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 @sm:grid-cols-2">
           {Object.entries(SKILLS).map(([category, items]) => (
             <div key={category} className="border border-os-border bg-os-overlay-1 p-4">
               <p className="text-[10px] tracking-[0.2em] text-foreground/40">
@@ -72,7 +72,7 @@ export default function AboutWindow() {
         <h2 className="mb-3 flex items-center gap-2 font-pixel text-sm tracking-wide text-os-blue">
           <span className="text-foreground/40">{"//"}</span> CONTACT
         </h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 @sm:grid-cols-2">
           {SOCIAL.map((item) => (
             <a
               key={item.label}

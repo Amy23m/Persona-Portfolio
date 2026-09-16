@@ -18,14 +18,14 @@ export default function ProjectsWindow() {
             onBack={() => setSelectedSlug(null)}
           />
         ) : (
-          <div className="grid grid-cols-1 items-stretch gap-4 @3xl:grid-cols-12">
+          <div className="grid grid-cols-1 items-stretch gap-4 @lg:grid-cols-2 @3xl:grid-cols-12">
             {PROJECTS.map((project) => (
               <div
                 key={project.slug}
                 className={
                   project.span === "featured"
                     ? "col-span-1 @3xl:col-span-6"
-                    : "col-span-1 @3xl:col-span-6"
+                    : "col-span-1 @3xl:col-span-4"
                 }
               >
                 <ProjectCard3D project={project} onSelect={setSelectedSlug} />

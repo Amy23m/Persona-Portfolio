@@ -8,7 +8,7 @@ const BUTTON_STYLES: Record<string, string> = {
 
 export default function ConnectWindow() {
   return (
-    <div className="flex min-h-full flex-col items-center justify-center gap-10 bg-os-overlay-2 p-6 text-center text-foreground">
+    <div className="@container flex min-h-full flex-col items-center justify-center gap-10 bg-os-overlay-2 p-6 text-center text-foreground">
       <div>
         <p className="text-xs tracking-[0.35em] text-os-blue/80">
           WORLD 5 — UNDERGROUND
@@ -22,7 +22,7 @@ export default function ConnectWindow() {
         </p>
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row">
+      <div className="flex flex-col gap-4 @sm:flex-row">
         {SOCIAL.map((item) => (
           <a
             key={item.label}
