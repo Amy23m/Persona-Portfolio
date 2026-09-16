@@ -2,27 +2,27 @@
 
 :root {
   --background: #050508;
-  --foreground: #e6f1ff;
-  --os-blue: #1a8cff;
-  --os-blue-dim: #0f4c8c;
+  --foreground: #ece6ff;
+  --os-blue: #8259f1;
+  --os-blue-dim: #4c2f8c;
   --os-red: #ff2d55;
   --os-cyan: #2de2ff;
   --os-dark: #050508;
-  --os-panel: rgba(13, 13, 20, 0.92);
-  --os-titlebar: #0a0a14;
-  --os-border: rgba(26, 140, 255, 0.35);
+  --os-panel: rgba(19, 13, 26, 0.92);
+  --os-titlebar: #0e0a17;
+  --os-border: rgba(130, 89, 241, 0.35);
   --os-overlay-1: rgba(0, 0, 0, 0.6);
   --os-overlay-2: rgba(0, 0, 0, 0.3);
 }
 
 :root[data-theme="light"] {
-  --background: #e4e9f2;
-  --foreground: #14192a;
-  --os-blue-dim: #7fb4f0;
-  --os-dark: #d7deea;
-  --os-panel: rgba(228, 233, 242, 0.94);
-  --os-titlebar: #c6d0e3;
-  --os-border: rgba(26, 140, 255, 0.45);
+  --background: #f1ecfb;
+  --foreground: #1c1430;
+  --os-blue-dim: #b9a3f5;
+  --os-dark: #e4daf7;
+  --os-panel: rgba(241, 236, 251, 0.94);
+  --os-titlebar: #ddd0f5;
+  --os-border: rgba(130, 89, 241, 0.45);
   --os-overlay-1: rgba(255, 255, 255, 0.75);
   --os-overlay-2: rgba(255, 255, 255, 0.55);
 }
@@ -77,10 +77,10 @@ body {
 .os-grid-bg {
   background-image: linear-gradient(
       to right,
-      rgba(26, 140, 255, 0.07) 1px,
+      rgba(130, 89, 241, 0.07) 1px,
       transparent 1px
     ),
-    linear-gradient(to bottom, rgba(26, 140, 255, 0.07) 1px, transparent 1px);
+    linear-gradient(to bottom, rgba(130, 89, 241, 0.07) 1px, transparent 1px);
   background-size: 42px 42px;
 }
 
@@ -119,8 +119,8 @@ body {
   height: 100vh;
   background: linear-gradient(
     135deg,
-    rgba(26, 140, 255, 0.16) 0%,
-    rgba(26, 140, 255, 0.05) 45%,
+    rgba(130, 89, 241, 0.16) 0%,
+    rgba(130, 89, 241, 0.05) 45%,
     transparent 60%
   );
   clip-path: polygon(0 0, 60% 0, 0 75%);

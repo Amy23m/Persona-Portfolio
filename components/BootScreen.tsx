@@ -77,7 +77,7 @@ export default function BootScreen({ onBoot }: BootScreenProps) {
           className="os-glitch font-display text-4xl leading-none text-foreground sm:text-6xl md:text-8xl lg:text-9xl"
           style={{
             WebkitTextStroke: "2px var(--os-blue)",
-            textShadow: "0 0 24px rgba(26,140,255,0.55)",
+            textShadow: "0 0 24px rgba(130,89,241,0.55)",
           }}
         >
           AYOMIDE OSHILAJA
