@@ -41,7 +41,7 @@ export default function AboutWindow() {
           </p>
 
           <a
-            href="https://drive.google.com/file/d/1wi2Umw7IgnrZN1covTm9jX_VzC6k2GDo/view?usp=sharing"
+            href="/Ayomide_Oshilaja_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="pixel-btn mt-4 inline-flex items-center gap-2 border border-os-blue bg-os-blue/10 px-4 py-2 font-pixel text-[10px] tracking-[0.2em] text-os-blue transition-colors hover:bg-os-blue hover:text-black"
